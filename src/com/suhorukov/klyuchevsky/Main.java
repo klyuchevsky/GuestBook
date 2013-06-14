@@ -2,6 +2,8 @@ package com.suhorukov.klyuchevsky;
 
 import com.suhorukov.klyuchevsky.database.GuestBookDB;
 import com.suhorukov.klyuchevsky.database.H2;
+import com.suhorukov.klyuchevsky.userDialog.ConsoleDisplay;
+import com.suhorukov.klyuchevsky.userDialog.ConsoleReader;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -20,13 +22,9 @@ public class Main {
             connection = DriverManager.getConnection(driver + ":" + database, user, pass);
             GuestBookDB db = new H2(connection);
             db.createTable();
-//            new UIController(new ConsoleReader(), new ConsoleDisplay(), new BusinessController(db));
-        } catch (ClassNotFoundException e) {
+            new UIController(new ConsoleReader(), new ConsoleDisplay(), new BusinessController(db));
+        } catch (ClassNotFoundException | SQLException | IOException e) {
             e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
         } finally {
             try {
                 if (connection != null) connection.close();
